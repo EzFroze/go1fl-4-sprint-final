@@ -20,7 +20,7 @@ const (
 func parseTraining(data string) (int, string, time.Duration, error) {
 	parsedStr := strings.Split(data, ",")
 	if len(parsedStr) != 3 {
-		return 0, "", 0, errors.New(fmt.Sprintln("invalid training data:", data))
+		return 0, "", 0, errors.New("invalid data")
 	}
 
 	stepsStr := parsedStr[0]
@@ -32,9 +32,17 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, err
 	}
 
+	if steps <= 0 {
+		return 0, "", 0, errors.New("invalid steps")
+	}
+
 	duration, err := time.ParseDuration(durationStr)
 	if err != nil {
 		return 0, "", 0, err
+	}
+
+	if duration <= 0 {
+		return 0, "", 0, errors.New("invalid duration")
 	}
 
 	return steps, activityType, duration, nil
