@@ -20,14 +20,14 @@ const (
 func parsePackage(data string) (int, time.Duration, error) {
 	parsedData := strings.Split(data, ",")
 	if len(parsedData) != 2 {
-		return 0, 0, errors.New("")
+		return 0, 0, fmt.Errorf("length of data is not 2")
 	}
 	stepsSrt := parsedData[0]
 	dateStr := parsedData[1]
 
 	steps, err := strconv.Atoi(stepsSrt)
 	if err != nil {
-		return 0, 0, err
+		return 0, 0, fmt.Errorf("invalid steps format: %w", err)
 	}
 
 	if steps <= 0 {
@@ -52,6 +52,11 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	if err != nil {
 		log.Print(err)
+		return ""
+	}
+
+	if steps <= 0 {
+		log.Print(fmt.Errorf("invalid steps format: %w", err))
 		return ""
 	}
 
